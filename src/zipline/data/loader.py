@@ -21,7 +21,7 @@ from trading_calendars import get_calendar
 
 from .benchmarks import get_benchmark_returns
 from . import treasuries
-from ..utils.paths import cache_root, data_root
+from zipline.utils.paths import cache_root, data_root
 
 
 logger = logbook.Logger("Loader")
