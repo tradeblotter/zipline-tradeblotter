@@ -41,6 +41,7 @@ class AlgorithmSimulator(object):
         clock,
         benchmark_source,
         restrictions,
+        tradeblotter_args
     ):
 
         # ==============
@@ -84,6 +85,11 @@ class AlgorithmSimulator(object):
 
         self.processor = Processor(inject_algo_dt)
 
+        # =============
+        # Tradeblotter specific
+        # =============
+        self.tradeblotter_args = tradeblotter_args
+
     def get_simulation_dt(self):
         return self.simulation_dt
 
@@ -126,7 +132,7 @@ class AlgorithmSimulator(object):
                 new_transactions,
                 new_commissions,
                 closed_orders,
-            ) = blotter.get_transactions(current_data)
+            ) = blotter.get_transactions(current_data, self.data_portal, self.tradeblotter_args)
 
             blotter.prune_orders(closed_orders)
 

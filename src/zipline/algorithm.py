@@ -233,6 +233,7 @@ class TradingAlgorithm(object):
         capital_changes=None,
         get_pipeline_loader=None,
         create_event_context=None,
+        tradeblotter_args=None,
         **initialize_kwargs,
     ):
         # List of trading controls to be used to validate orders.
@@ -391,6 +392,7 @@ class TradingAlgorithm(object):
         self.initialized = False
 
         self.initialize_kwargs = initialize_kwargs or {}
+        self.tradeblotter_args = tradeblotter_args
 
         self.benchmark_sid = benchmark_sid
 
@@ -577,6 +579,7 @@ class TradingAlgorithm(object):
             self._create_clock(),
             benchmark_source,
             self.restrictions,
+            tradeblotter_args=self.tradeblotter_args
         )
 
         metrics_tracker.handle_start_of_simulation(benchmark_source)

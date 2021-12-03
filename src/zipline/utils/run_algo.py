@@ -84,6 +84,7 @@ def _run(
     blotter,
     custom_loader,
     benchmark_spec,
+    tradeblotter_args=None
 ):
     """Run a backtest for the given algorithm.
 
@@ -213,6 +214,7 @@ def _run(
             blotter=blotter,
             benchmark_returns=benchmark_returns,
             benchmark_sid=benchmark_sid,
+            tradeblotter_args=tradeblotter_args,
             **{
                 "initialize": initialize,
                 "handle_data": handle_data,
