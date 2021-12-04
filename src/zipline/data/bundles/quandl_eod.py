@@ -163,7 +163,6 @@ def quandl_eod_bundle(
     asset_db_writer,
     minute_bar_writer,
     daily_bar_writer,
-    daily_chain_writer,
     adjustment_writer,
     calendar,
     start_session,
