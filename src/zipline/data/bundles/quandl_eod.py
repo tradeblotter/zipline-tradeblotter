@@ -42,7 +42,7 @@ def load_data_table(file, index_col, show_progress=False):
                 log.info("Parsing raw data.")
             data_table = pd.read_csv(
                 table_file,
-                header=None,
+                header=0,
                 names=[
                     "symbol",
                     "date",
