@@ -390,7 +390,7 @@ class SQLiteAdjustmentWriter(object):
             # frame = pd.DataFrame(
             #     np.array([], dtype=list(expected_dtypes.items())),
             # )
-            frame = pd.DataFrame(expected_dtypes, index=[])
+            frame = pd.DataFrame({c: pd.Series(dtype=t) for c, t in expected_dtypes.items()})
         else:
             if frozenset(frame.columns) != frozenset(expected_dtypes):
                 raise ValueError(
