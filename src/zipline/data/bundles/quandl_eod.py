@@ -19,13 +19,13 @@ import numpy as np
 log = Logger(__name__)
 
 ONE_MEGABYTE = 1024 * 1024
-QUANDL_DATA_URL = "https://www.quandl.com/api/v3/databases/EOD/data?"
+QUANDL_DATA_URL = "https://data.nasdaq.com/api/v3/datatables/WIKI/PRICES?qopts.export=true&"
 
 
 def format_metadata_url(api_key):
     """ Build the query URL for Quandl WIKI Prices metadata.
     """
-    query_params = [("api_key", api_key), ("download_type", "full")]
+    query_params = [("api_key", api_key)]
 
     return QUANDL_DATA_URL + urlencode(query_params)
 
@@ -87,14 +87,15 @@ def fetch_data_table(api_key, show_progress, retries):
 
             # Extract link from metadata and download zip file.
             table_url = format_metadata_url(api_key)
+            download_link = fetch_download_link(table_url)
             if show_progress:
                 raw_file = download_with_progress(
-                    table_url,
+                    download_link,
                     chunk_size=ONE_MEGABYTE,
                     label="Downloading WIKI Prices table from Quandl",
                 )
             else:
-                raw_file = download_without_progress(table_url)
+                raw_file = download_without_progress(download_link)
 
             return load_data_table(
                 file=raw_file, index_col=None, show_progress=show_progress
@@ -107,6 +108,15 @@ def fetch_data_table(api_key, show_progress, retries):
         raise ValueError(
             "Failed to download Quandl data after %d attempts." % (retries)
         )
+
+def fetch_download_link(table_url):
+    """
+    """
+    r = requests.get(table_url)
+    if r.ok:
+        return r.json()['datatable_bulk_download']['file']['link']
+    else:
+        log.exception('Exception raised while getting Quandl download link')
 
 
 def gen_asset_metadata(data, show_progress):
