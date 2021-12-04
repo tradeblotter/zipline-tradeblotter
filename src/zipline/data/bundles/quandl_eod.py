@@ -18,7 +18,7 @@ import numpy as np
 log = Logger(__name__)
 
 ONE_MEGABYTE = 1024 * 1024
-QUANDL_DATA_URL = "https://data.nasdaq.com/api/v3/datatables/WIKI/PRICES?qopts.export=true&"
+QUANDL_DATA_URL = "https://data.nasdaq.com/api/v3/datatables/QUOTEMEDIA/PRICES?qopts.export=true&"
 
 
 def format_metadata_url(api_key):
