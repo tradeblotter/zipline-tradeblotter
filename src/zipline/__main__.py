@@ -110,7 +110,7 @@ def ipython_only(option):
     return d
 
 
-DEFAULT_BUNDLE = "quandl"
+DEFAULT_BUNDLE = "quandl-eod"
 
 
 @main.command()
