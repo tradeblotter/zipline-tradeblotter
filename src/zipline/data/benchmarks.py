@@ -73,8 +73,8 @@ def get_benchmark_returns(symbol, bundle_name="quandl-eod", calendar_name="NYSE"
     -------
     returns :
     """
-    calendar = get_calendar(calendar_name)
     bundle_data = bundles.load(bundle_name)
+    calendar = bundle_data.equity_daily_bar_reader.trading_calendar
 
     start_date = pd.Timestamp("1990-01-03", tz="UTC")
     end_date = pd.Timestamp("today", tz="UTC")
