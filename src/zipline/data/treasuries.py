@@ -58,27 +58,28 @@ def earliest_possible_date():
 
 
 def get_treasury_data(start_date, end_date):
+    df = pd.read_csv(
+        "https://www.federalreserve.gov/datadownload/Output.aspx"
+        "?rel=H15"
+        "&series=bf17364827e38702b42a58cf8eaa3f78"
+        "&lastObs="
+        "&from="  # An unbounded query is ~2x faster than specifying dates.
+        "&to="
+        "&filetype=csv"
+        "&label=include"
+        "&layout=seriescolumn"
+        "&type=package",
+        skiprows=5,  # First 5 rows are useless headers.
+        parse_dates=["Time Period"],
+        na_values=["ND"],  # Presumably this stands for "No Data".
+        index_col=0,
+    )
+    df.index = df.index.tz_localize(tz='UTC')
     return (
-        pd.read_csv(
-            "https://www.federalreserve.gov/datadownload/Output.aspx"
-            "?rel=H15"
-            "&series=bf17364827e38702b42a58cf8eaa3f78"
-            "&lastObs="
-            "&from="  # An unbounded query is ~2x faster than specifying dates.
-            "&to="
-            "&filetype=csv"
-            "&label=include"
-            "&layout=seriescolumn"
-            "&type=package",
-            skiprows=5,  # First 5 rows are useless headers.
-            parse_dates=["Time Period"],
-            na_values=["ND"],  # Presumably this stands for "No Data".
-            index_col=0,
-        )
+        df
         .loc[start_date:end_date]
         .dropna(how="all")
         .rename(columns=parse_treasury_csv_column)
-        .tz_localize("UTC")
         * 0.01
     )  # Convert from 2.57% to 0.0257.
 
@@ -107,4 +108,3 @@ def get_daily_10yr_treasury_data():
         converters={1: dataconverter},
         squeeze=True,
     )
-
