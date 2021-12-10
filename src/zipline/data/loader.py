@@ -184,7 +184,7 @@ def ensure_benchmark_data(
     comparing the current time to the result of os.path.getmtime on the cache
     path.
     """
-    filename = get_benchmark_filename(symbol, calendar)
+    filename = get_benchmark_filename(symbol)
     data = _load_cached_data(filename, first_date, last_date, now, "benchmark", environ)
     if data is not None:
         return data
@@ -202,7 +202,7 @@ def ensure_benchmark_data(
     )
 
     try:
-        data = get_benchmark_returns(symbol)
+        data = get_benchmark_returns(symbol, calendar)
         data.to_csv(get_data_filepath(filename, environ))
     except (FileNotFoundError, OSError, IOError, HTTPError):
         logger.exception("Failed to cache the new benchmark returns")

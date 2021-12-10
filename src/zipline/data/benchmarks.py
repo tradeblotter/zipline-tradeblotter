@@ -15,7 +15,6 @@
 import pandas as pd
 
 import logbook
-from trading_calendars import get_calendar
 from zipline.data import bundles
 from zipline.data.data_portal import DataPortal
 
