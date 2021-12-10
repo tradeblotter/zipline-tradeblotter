@@ -80,7 +80,7 @@ def get_benchmark_returns(symbol, calendar, bundle_name="quandl-eod"):
 
     portal = DataPortal(
         bundle_data.asset_finder,
-        calendar,
+        bundle_data.equity_daily_bar_reader.trading_calendar,
         bundle_data.equity_daily_bar_reader.first_trading_day,
         equity_minute_reader=bundle_data.equity_minute_bar_reader,
         equity_daily_reader=bundle_data.equity_daily_bar_reader,
