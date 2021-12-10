@@ -59,7 +59,7 @@ def get_benchmark_returns_from_file(filelike):
     return df["return"].sort_index()
 
 
-def get_benchmark_returns(symbol, bundle_name="quandl-eod", calendar_name="NYSE"):
+def get_benchmark_returns(symbol, calendar, bundle_name="quandl-eod"):
     """Use the zipline data portal to return benchmark data
     Parameters
     ----------
@@ -74,7 +74,6 @@ def get_benchmark_returns(symbol, bundle_name="quandl-eod", calendar_name="NYSE"
     returns :
     """
     bundle_data = bundles.load(bundle_name)
-    calendar = bundle_data.equity_daily_bar_reader.trading_calendar
 
     start_date = pd.Timestamp("1990-01-03", tz="UTC")
     end_date = pd.Timestamp("today", tz="UTC")

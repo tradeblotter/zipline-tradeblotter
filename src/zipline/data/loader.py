@@ -107,10 +107,11 @@ def load_market_data(
     '1month', '3month', '6month',
     '1year','2year','3year','5year','7year','10year','20year','30year'
     """
+    calendar = get_calendar("XNYS")
     if trading_day is None:
-        trading_day = get_calendar("XNYS").day
+        trading_day = calendar.day
     if trading_days is None:
-        trading_days = get_calendar("XNYS").all_sessions
+        trading_days = calendar.all_sessions
 
     first_date = trading_days[0]
     now = pd.Timestamp.utcnow()
@@ -126,6 +127,7 @@ def load_market_data(
         # We need the trading_day to figure out the close prior to the first
         # date so that we can compute returns for the first date.
         trading_day,
+        calendar,
         environ,
     )
 
@@ -155,7 +157,7 @@ def load_market_data(
 
 
 def ensure_benchmark_data(
-    symbol, first_date, last_date, now, trading_day, environ=None
+    symbol, first_date, last_date, now, trading_day, calendar, environ=None
 ):
     """
     Ensure we have benchmark data for `symbol` from `first_date` to `last_date`
@@ -182,7 +184,7 @@ def ensure_benchmark_data(
     comparing the current time to the result of os.path.getmtime on the cache
     path.
     """
-    filename = get_benchmark_filename(symbol)
+    filename = get_benchmark_filename(symbol, calendar)
     data = _load_cached_data(filename, first_date, last_date, now, "benchmark", environ)
     if data is not None:
         return data
