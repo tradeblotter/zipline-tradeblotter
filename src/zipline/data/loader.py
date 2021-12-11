@@ -127,7 +127,6 @@ def load_market_data(
         # We need the trading_day to figure out the close prior to the first
         # date so that we can compute returns for the first date.
         trading_day,
-        calendar,
         environ,
     )
 
@@ -157,7 +156,7 @@ def load_market_data(
 
 
 def ensure_benchmark_data(
-    symbol, first_date, last_date, now, trading_day, calendar, environ=None
+    symbol, first_date, last_date, now, trading_day, environ=None
 ):
     """
     Ensure we have benchmark data for `symbol` from `first_date` to `last_date`
@@ -202,7 +201,7 @@ def ensure_benchmark_data(
     )
 
     try:
-        data = get_benchmark_returns(symbol, calendar)
+        data = get_benchmark_returns(symbol)
         data.to_csv(get_data_filepath(filename, environ))
     except (FileNotFoundError, OSError, IOError, HTTPError):
         logger.exception("Failed to cache the new benchmark returns")
